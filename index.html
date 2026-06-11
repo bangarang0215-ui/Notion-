@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Gowun+Dodum&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  body {
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Poppins', sans-serif; background: transparent; padding: 14px;
+  }
+  :root {
+    --card-1: #E8DBC8;
+    --card-2: #D9C4A8;
+    --time:   rgba(255, 252, 246, 0.92);
+    --sub:    rgba(108, 84, 60, 0.66);
+    --accent: #c79b78;
+  }
+  .card {
+    width: 290px; border-radius: 34px;
+    background: linear-gradient(135deg, var(--card-1) 0%, var(--card-2) 100%);
+    padding: 26px 32px;
+    box-shadow: 0 8px 22px rgba(160, 130, 95, 0.20);
+    text-align: center;
+  }
+  .time {
+    display: flex; align-items: baseline; justify-content: center; line-height: 1; color: var(--time);
+    font-weight: 700; letter-spacing: -0.01em;
+    text-shadow: 0 1px 1px rgba(150,120,90,0.12);
+  }
+  .time .hm { font-size: 54px; font-variant-numeric: tabular-nums; }
+  .time .ap { font-size: 20px; font-weight: 600; margin-left: 8px; }
+  .date {
+    display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px;
+    color: var(--sub); font-weight: 600; font-size: 15px; letter-spacing: 0.02em;
+    font-family: 'Gowun Dodum', sans-serif;
+  }
+  .date svg { width: 15px; height: 15px; fill: none; stroke: var(--accent); stroke-width: 1.6; opacity: 0.85; }
+  @media (max-width: 420px) {
+    .card { width: 240px; padding: 22px 26px; }
+    .time .hm { font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="time">
+      <span class="hm" id="hm">5:33</span>
+      <span class="ap" id="ap">PM</span>
+    </div>
+    <div class="date">
+      <span id="date">10월 13일 월요일</span>
+    </div>
+  </div>
+  <script>
+    const dows = ['일','월','화','수','목','금','토'];
+    function tick() {
+      const now = new Date();
+      let h = now.getHours();
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const ap = h < 12 ? 'PM' : 'PM';
+      let h12 = h % 12; if (h12 === 0) h12 = 12;
+      document.getElementById('hm').textContent = `${h12}:${m}`;
+      document.getElementById('ap').textContent = (now.getHours() < 12) ? 'AM' : 'PM';
+      document.getElementById('date').textContent =
+        `${now.getMonth() + 1}월 ${now.getDate()}일 ${dows[now.getDay()]}요일`;
+    }
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>
